@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { errors } from 'celebrate';
+// import { errors } from 'celebrate';
 
 import errorHandling from '@sharedInfra/http/middlewares/errorHandling';
 import routes from '../routes/index';
@@ -17,7 +17,7 @@ class App {
     this.express.use(cors());
     this.express.use(express.json());
     this.express.use(routes);
-    this.express.use(errors());
+    // this.express.use(errors());
     this.express.use(errorHandling);
   }
 }

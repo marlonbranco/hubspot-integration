@@ -17,11 +17,12 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
+      "@config/*":["./src/config/*"],
       "@modules/*": ["./src/modules/*"],
       "@errors/*": ["./src/shared/errors/*"],
       "@shared/*": ["./src/shared/*"],
       "@sharedInfra/*": ["./src/shared/infra/*"],
-      "@sharedProviders": ["./src/shared/providers/*"],
+      "@sharedProviders/*": ["./src/shared/providers/*"],
       "@utils/*": ["./src/shared/utils/*"]
     },
     "rootDirs": ["./src", "./tests"],
