@@ -1,18 +1,11 @@
-import { hubSpotApi } from '../infra/http/hubSpotApiConnect';
+import HubSpotEndpoints from '@sharedProviders/HubSpot/infra/http/HubSpotEndpoints';
+
+const hubSpotEndpoints = new HubSpotEndpoints();
 
 export default class CreateContactList {
   async execute(firstName: string, lastName: string): Promise<any> {
     try {
-      const hubSpotApiKey = process.env.HUBSPOT_API_KEY;
-      const contactList = await hubSpotApi.post('/contacts/v1/lists', {
-        name: `${firstName}.${lastName}.${Date.now()}`
-      }, {
-        params: {
-          hapikey: hubSpotApiKey,
-
-        }
-      });
-      return contactList;
+      return hubSpotEndpoints.createContactList(firstName, lastName);
     } catch (err) {
       console.log(err);
     }

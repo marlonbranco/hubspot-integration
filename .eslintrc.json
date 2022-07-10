@@ -13,6 +13,8 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "no-empty-function": "off",
+    "prefer-const": "off",
     "consistent-return": "off",
     "no-useless-constructor": "off",
     "indent": ["error", 2],

@@ -3,32 +3,23 @@ import 'dotenv/config';
 import 'express-async-errors';
 
 import ErrorsApp from '@errors/ErrorsApp';
-// import CreateContactList from '@sharedProviders/HubSpot/useCases/CreateContactList';
-import CreateContactsInBatch from '@sharedProviders/HubSpot/useCases/CreateContactsInBatch';
-// import GetContactsDomainSum from '@sharedProviders/HubSpot/useCases/GetContactsDomainSum';
+import CreateContactsFromCsvFile from '@modules/contacts/useCases/CreateContactsFromCsvFile';
+import { performance } from 'perf_hooks';
 import app from './app';
-// import Uploader from '../../providers/Papaparser/index';
 
 const PORT = Number(process.env.PORT) || 3333;
 const URL = process.env.URL || '0.0.0.0';
-// const uploader = new Uploader();
-// const createContactList = new CreateContactList();
-const createContactsInBatch = new CreateContactsInBatch();
-// const getContactsDomainSum = new GetContactsDomainSum();
-// const firstName = 'marlon';
-// const lastName = 'valentino';
-// const email = 'marlon.valentino@gmail.com';
-// const gender = 'male';
+const createContactsFromCsvFile = new CreateContactsFromCsvFile();
 
 if (!URL) {
   throw new ErrorsApp('URL_UNDEFINED');
 }
 
 app.listen(PORT, URL, async () => {
-  /** createContactList.execute(firstName, lastName); * */
-  // getContactsDomainSum.execute();
-  console.log(`Backend running on http://${URL}:${PORT}`);
-  await createContactsInBatch.execute();
+  process.stdout.write(`Backend running on http://${URL}:${PORT}\n`);
+  const initTime = performance.now();
+  await createContactsFromCsvFile.execute();
+  const endTime = performance.now();
+  const executionTime = ((endTime - initTime) * 100) / 1000 / 100;
+  process.stdout.write(`\nPROCESS COMPLETED IN ${executionTime}s\n`);
 });
-
-// uploader.execute();

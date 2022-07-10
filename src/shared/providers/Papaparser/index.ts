@@ -4,6 +4,7 @@ import path from 'path';
 import papa from 'papaparse';
 import { performance } from 'perf_hooks';
 import ErrorsApp from '@errors/ErrorsApp';
+import { bigArraySplitter } from '@shared/utils/bigArraySplitter';
 
 export default class Uploader {
   private async checkIfFileExists(file: string): Promise<boolean> {
@@ -15,23 +16,11 @@ export default class Uploader {
     }
   }
 
-  private chunkBatch(batch: any, size: number) {
-    const chunks = [];
-
-    while (batch.length) {
-      chunks.push(
-        batch.splice(0, size)
-      );
-    }
-
-    return chunks;
-  }
-
-  public async readFile(): Promise<[]> {
+  public async readFile(): Promise<string> {
     const initTime = performance.now();
     const config = { delimiter: ',', header: true, chunk: true };
     const parseStream = papa.parse(papa.NODE_STREAM_INPUT, config);
-    const filePath = path.resolve('Contatos.csv');
+    const filePath = path.resolve('MOCK_DATA.csv');
     try {
       await this.checkIfFileExists(filePath);
     } catch (err: any) {
@@ -48,7 +37,7 @@ export default class Uploader {
         .pipe(parseStream)
         .on('data', (chunk) => {
           const properties = {
-            email: chunk.email,
+            email: chunk.email.toLowerCase(),
             properties: [
               {
                 property: 'firstname',
@@ -68,9 +57,9 @@ export default class Uploader {
         .on('end', () => {
           const endTime = performance.now();
           const executionTime = ((endTime - initTime) * 100) / 1000 / 100;
-          chunkedData = this.chunkBatch(data, 1000);
+          chunkedData = bigArraySplitter(data, 1000);
+          process.stdout.write(`\nFILE READ IN ${executionTime}s\n`);
           resolve(chunkedData);
-          process.stdout.write(`FILE READ IN ${executionTime}s`);
         });
     });
   }

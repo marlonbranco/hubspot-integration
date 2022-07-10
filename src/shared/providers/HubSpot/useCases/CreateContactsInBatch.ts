@@ -1,33 +1,31 @@
-import delayBetweenRequests from '@shared/utils/delayBetweenRequests';
-import { hubSpotApi } from '../infra/http/hubSpotApiConnect';
-import Uploader from '../../Papaparser/index';
+// import { inject, injectable } from 'tsyringe';
+// import IHubSpotEndpoints from '@sharedProviders/HubSpot/implementations/IHubSpotEndpoints';
+import HubSpotEndpoints from '../infra/http/HubSpotEndpoints';
 
+const hubSpotEndpoints = new HubSpotEndpoints();
+
+// @injectable()
 export default class CreateContactsInBatch {
-  public async execute(): Promise<void> {
-    console.log('process started');
-    const hubSpotApiKey = process.env.HUBSPOT_API_KEY;
-    const uploader = new Uploader();
+  /* constructor(
+    @inject('HubSpotEndpoints')
+    private hubSpotEndpoints: IHubSpotEndpoints
+  ) {} */
 
-    const contactsBatch: any = await uploader.readFile();
-    if (!contactsBatch) {
-      console.log('DATA NOT FOUND');
-    }
-    console.log('process started');
-    for await (const data of contactsBatch) {
-      try {
-        await hubSpotApi.post('/contacts/v1/contact/batch/',
-          data,
-          {
-            params: {
-              hapikey: hubSpotApiKey,
+  public async execute(contactsBatch: any): Promise<string[]> {
+    process.stdout.write('\nCREATING CONTACTS ON HUBSPOT...\n');
+    let emailsList: string[] = [];
 
-            }
-          });
-        delayBetweenRequests(100);
-      } catch (err) {
-        console.log(err);
-      }
+    for await (const batch of contactsBatch) {
+      await hubSpotEndpoints.createContactsInBatch(batch);
+      const emails = batch.map(({ email }: any) => email);
+
+      emailsList.push(emails);
     }
-    console.log('process ended');
+
+    emailsList = emailsList.flat(1);
+
+    process.stdout.write('\nFINISHED CREATING CONTACTS\n');
+
+    return emailsList;
   }
 }
