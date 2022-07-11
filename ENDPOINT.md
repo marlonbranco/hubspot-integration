@@ -1,24 +1,25 @@
-# HubSpot Integration API endpoint 🚀
+# Endpoint da API de integração com HubSpot 🚀
 
-This endpoint consults the chosen contact list and will bring you a list with the same email domains and their respective amount. 🗃
 
 ``
-IMPORTANT: Check the README.md file to see how you can execute the project
+IMPORTANTE: Verifique o arquivo README.md para obter informações de execução do projeto
 ``
 
-## GET
-`FETCHES DATA FROM HUBSPOT` [/v1/contacts/:list_id/domain-sum](#get-1billingretrieve-billing-datajson) <br/>
+**GET**  este endpoint consulta a lista de contatos pelo `list_id` e lhe trará uma lista com os mesmos domínios de e-mail e sua respectiva quantidade.
+
+```
+/v1/contacts/:list_id/domain-sum
+```
 
 **Path variables**
 
-|          Name | Required |  Type   | Description                                                                                                                                                           |
+|          Nome | Obrigatório |  Tipo   | Description                                                                                                                                                           |
 | -------------:|:--------:|:-------:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     `list_id` | required | number  | Provided the `list_id` of the list you wish to fetch data from.                                                                    |
+|     `list_id` | sim | number  | Preencha com o `list_id` da lista da qual você deseja buscar dados. <br/><br/> ``OBS:`` toda a vez que a aplicação se inicia, ela cria uma lista e exibe o List ID no console.                                                            | 
 
-**Response**
+**Resposta**
 
 ```
-// List with the same email domains and their respective amount 
 [
     {
         "domain": "@meetup.com",
@@ -33,3 +34,7 @@ IMPORTANT: Check the README.md file to see how you can execute the project
         "quantity": 19
     }
 ]
+```
+### GetContactsListDomainSum
+![GetContactsListDomainSum](.github/media/getdomains.png)
+

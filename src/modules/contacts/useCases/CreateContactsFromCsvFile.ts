@@ -7,7 +7,9 @@ import CreateContactsInBatch from '@sharedProviders/HubSpot/useCases/CreateConta
 import AddExistentContactsToAList from '@sharedProviders/HubSpot/useCases/AddExistentContactsToAList';
 import Uploader from '@sharedProviders/Papaparser/index';
 import { performance } from 'perf_hooks';
+import ErrorsApp from '@errors/ErrorsApp';
 
+const csvFileName = process.env.CSV_FILE_NAME;
 const firstName = 'marlon';
 const lastName = 'valentino';
 const createContactList = new CreateContactList();
@@ -23,7 +25,9 @@ export default class CreateContactsFromCsvFile {
       console.log(err);
     });
 
-    const contactsBatch: any = await uploader.readFile('Contatos.csv');
+    if (!csvFileName) throw new ErrorsApp('CSV filename not provided', 404);
+
+    const contactsBatch: any = await uploader.readFile(csvFileName);
 
     if (!contactsBatch) {
       process.stdout.write('\nDATA NOT FOUND');

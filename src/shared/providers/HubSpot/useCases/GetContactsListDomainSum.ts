@@ -5,6 +5,19 @@ import ErrorsApp from '@errors/ErrorsApp';
 const hubSpotEndpoints = new HubSpotEndpoints();
 
 export default class GetContactsListDomainSum {
+  private isPositiveInteger(str: string) {
+    if (typeof str !== 'string') {
+      return false;
+    }
+
+    const num = Number(str);
+
+    if (Number.isInteger(num) && num > 0) {
+      return true;
+    }
+    return false;
+  }
+
   private groupDomainsAndCount(domains: string[]) {
     const result = domains.reduce((domain: any, value: any) => {
       domain[value] = (domain[value] || 0) + 1;
@@ -27,7 +40,7 @@ export default class GetContactsListDomainSum {
   }
 
   public async execute(listId: string): Promise<any> {
-    const isListIdANumber = Number.isInteger(listId);
+    const isListIdANumber = this.isPositiveInteger(listId);
 
     if (!isListIdANumber) {
       throw new ErrorsApp('The provided list_id is Not a Number', 406);
