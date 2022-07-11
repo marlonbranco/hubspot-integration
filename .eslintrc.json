@@ -13,6 +13,9 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "no-param-reassign": "off",
+    "no-await-in-loop": "warn",
+    "camelcase": "off",
     "no-empty-function": "off",
     "prefer-const": "off",
     "consistent-return": "off",

@@ -57,18 +57,19 @@ export default class HubSpotEndpoints implements IHubSpotEndpoints {
       });
   }
 
-  public async getContactsInAList(listId: number): Promise<any> {
-    const { data } = await hubSpotApi.get(`/contacts/v1/lists/:${listId}/contacts/all`, {
+  public async getContactsInAList(listId: number, offset?: number): Promise<any> {
+    const { data }: any = await hubSpotApi.get(`/contacts/v1/lists/${listId}/contacts/all`, {
       params: {
         hapikey: hubSpotApiKey,
         count: 100,
         property: 'email',
-        /* vidOffset: */
+        vidOffset: offset
       }
     })
       .catch((err) => {
-        throw new ErrorsApp(err.message, 400);
+        console.log(err);
       });
+
     return data;
   }
 }

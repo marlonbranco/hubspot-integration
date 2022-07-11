@@ -4,7 +4,6 @@ import 'express-async-errors';
 
 import ErrorsApp from '@errors/ErrorsApp';
 import CreateContactsFromCsvFile from '@modules/contacts/useCases/CreateContactsFromCsvFile';
-import { performance } from 'perf_hooks';
 import app from './app';
 
 const PORT = Number(process.env.PORT) || 3333;
@@ -17,9 +16,5 @@ if (!URL) {
 
 app.listen(PORT, URL, async () => {
   process.stdout.write(`Backend running on http://${URL}:${PORT}\n`);
-  const initTime = performance.now();
   await createContactsFromCsvFile.execute();
-  const endTime = performance.now();
-  const executionTime = ((endTime - initTime) * 100) / 1000 / 100;
-  process.stdout.write(`\nPROCESS COMPLETED IN ${executionTime}s\n`);
 });

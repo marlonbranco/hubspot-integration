@@ -16,11 +16,11 @@ export default class Uploader {
     }
   }
 
-  public async readFile(): Promise<string> {
+  public async readFile(fileName: string): Promise<string> {
     const initTime = performance.now();
     const config = { delimiter: ',', header: true, chunk: true };
     const parseStream = papa.parse(papa.NODE_STREAM_INPUT, config);
-    const filePath = path.resolve('MOCK_DATA.csv');
+    const filePath = path.resolve(fileName);
     try {
       await this.checkIfFileExists(filePath);
     } catch (err: any) {

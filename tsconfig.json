@@ -17,7 +17,6 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@config/*":["./src/config/*"],
       "@modules/*": ["./src/modules/*"],
       "@errors/*": ["./src/shared/errors/*"],
       "@shared/*": ["./src/shared/*"],

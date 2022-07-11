@@ -6,6 +6,7 @@ import CreateContactList from '@sharedProviders/HubSpot/useCases/CreateContactLi
 import CreateContactsInBatch from '@sharedProviders/HubSpot/useCases/CreateContactsInBatch';
 import AddExistentContactsToAList from '@sharedProviders/HubSpot/useCases/AddExistentContactsToAList';
 import Uploader from '@sharedProviders/Papaparser/index';
+import { performance } from 'perf_hooks';
 
 const firstName = 'marlon';
 const lastName = 'valentino';
@@ -16,14 +17,21 @@ const uploader = new Uploader();
 
 export default class CreateContactsFromCsvFile {
   public async execute(): Promise<void> {
-    const listId = await createContactList.execute(firstName, lastName);
+    const initTime = performance.now();
 
-    const contactsBatch: any = await uploader.readFile();
+    const listId = await createContactList.execute(firstName, lastName).catch((err) => {
+      console.log(err);
+    });
+
+    const contactsBatch: any = await uploader.readFile('Contatos.csv');
 
     if (!contactsBatch) {
       process.stdout.write('\nDATA NOT FOUND');
     }
     const emails = await createContactsInBatch.execute(contactsBatch);
     await addExistentContactsToAList.execute(listId, emails);
+    const endTime = performance.now();
+    const executionTime = ((endTime - initTime) * 100) / 1000 / 100;
+    process.stdout.write(`\nPROCESS COMPLETED IN ${executionTime}s\n`);
   }
 }

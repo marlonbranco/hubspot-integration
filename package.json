@@ -2,11 +2,11 @@
   "name": "api-integration",
   "version": "1.0.0",
   "author": "Marlon Branco",
-  "main": "./dist/shared/infra/http/server.js",
+  "main": "./dist/src/shared/infra/http/server.js",
   "license": "MIT",
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist/src --copy-files --no-copy-ignored",
-    "start": "node --max-old-space-size=5000 './dist/shared/infra/http/server.js'",
+    "start": "node --max-old-space-size=5000 './dist/src/shared/infra/http/server.js'",
     "start:dev": "ts-node-dev -r tsconfig-paths/register --inspect --respawn --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "test": "jest",
     "test:coverage": "jest --coverage"
@@ -21,13 +21,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
-    "multer": "^1.4.5-lts.1",
-    "node-cache": "^5.1.2",
     "papaparse": "^5.3.2",
-    "reflect-metadata": "^0.1.13",
-    "scramjet": "^4.36.6",
-    "tsyringe": "^4.6.0",
-    "zod": "^3.17.3"
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
@@ -39,8 +34,6 @@
     "@babel/preset-typescript": "^7.13.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
-    "@types/mongoose": "^5.11.97",
-    "@types/multer": "^1.4.7",
     "@types/node": "^16.10.2",
     "@types/papaparse": "^5.3.2",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
@@ -50,7 +43,6 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
-    "jest": "^27.2.4",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.11.0",
     "typescript": "^4.4.3"
